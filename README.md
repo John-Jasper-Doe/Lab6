@@ -4,3 +4,5 @@
 
 ## Otus Developer C++ Course
 Homework "MATRIX"
+
+Manual: https://john-jasper-doe.github.io/Lab5/index.html
