@@ -15,7 +15,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
                 CXX_STANDARD 14
                 CXX_STANDARD_REQUIRED ON
                 LINK_LIBRARIES pthread
-                COMPILE_OPTIONS "-g;-O0;-Wall;-Wextra;-Werror;-Wpedantic"
+                COMPILE_OPTIONS "-O2;-Wall;-Wextra;-Werror;-Wpedantic"
                 )
 
 
