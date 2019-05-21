@@ -15,15 +15,15 @@ script:
 - cmake --build . --target package
 
 deploy:
-  provider: pages
+- provider: pages
   skip-cleanup: true
   local_dir: docs/html
   github-token: $GITHUB_TOKEN
+  keep_history: true
   on:
     branch: master
 
-deploy:
-  provider: script
+- provider: script
   skip_cleanup: true
   on:
     branch: master
