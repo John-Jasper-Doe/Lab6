@@ -15,9 +15,6 @@ deploy:
   skip-cleanup: true
   local_dir: docs/html
   github-token: $GITHUB_TOKEN
-
-  provider: script
-  skip_cleanup: true
   on:
     branch: master
   script:
