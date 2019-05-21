@@ -14,7 +14,9 @@
 #include <iomanip>
 
 
-/** @brief Main function / entry point. */
+/**
+ * @brief Main function / entry point.
+ */
 int main()
 {
   const int num_elem = 10;
