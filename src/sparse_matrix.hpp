@@ -19,10 +19,10 @@
 /**
  * @brief The sparse matrix template class.
  * @tparam value_type_t - matrix element type.
- * @tparam default_value - default value (default -1).
+ * @tparam default_value - default value (default 0).
  * @tparam matrix_size - matrix size (default 2).
  */
-template<typename value_type_t, value_type_t default_value = -1,
+template<typename value_type_t, value_type_t default_value = 0,
                                                         size_t matrix_size = 2>
 class sparse_matrix
 {
