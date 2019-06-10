@@ -66,12 +66,6 @@ class sparse_matrix
     template<typename... types_t>
     class index_matrix<0, types_t...>;
 
-    /**
-     * Class that implements an iterator for working with matrix data.
-     */
-    class iterator_matrix;
-
-
     /* Aliases */
     using index_t = typename generate_index_type<size_t, matrix_size>::type;
     using contener_t = typename std::map<index_t, value_type_t>;
@@ -79,6 +73,13 @@ class sparse_matrix
 
 
   public:
+    /**
+     * Class that implements an iterator for working with matrix data.
+     */
+    class iterator_matrix;
+    class const_iterator_matrix;
+
+
     /**
      * The default constructor.
      */
@@ -160,7 +161,7 @@ class sparse_matrix
      * @return Returns an const iterator to the beginning of the matrix.
      */
     const auto cbegin() const {
-      return iterator_matrix(data_.cbegin());
+      return const_iterator_matrix(data_.cbegin());
     }
 
     /**
@@ -176,7 +177,7 @@ class sparse_matrix
      * @return Returns an const iterator to the end of the matrix.
      */
     const auto cend() const {
-      return iterator_matrix(data_.cend());
+      return const_iterator_matrix(data_.cend());
     }
 
     /**
@@ -299,11 +300,85 @@ class sparse_matrix<value_type_t, default_value, matrix_size>::
  * Class that implements an iterator for working with matrix data.
  */
 template<typename value_type_t, value_type_t default_value, size_t matrix_size>
-class sparse_matrix<value_type_t, default_value, matrix_size>:: iterator_matrix
+class sparse_matrix<value_type_t, default_value, matrix_size>::
+                                                          const_iterator_matrix
 {
   private:
     /* Aliases */
     using iterator_t = typename sparse_matrix::contener_t::const_iterator;
+    using iterator_category_t = std::input_iterator_tag;
+
+    iterator_t map_iterator_;   /**< - iterator of the data. */
+
+
+  public:
+   using value_t = decltype(std::tuple_cat((*map_iterator_).first,
+                                          std::tie((*map_iterator_).second)));
+
+    /**
+     * @brief The constructor.
+     * @param map_iterator [in] - iterator.
+     */
+    explicit const_iterator_matrix(iterator_t map_iterator)
+      : map_iterator_(map_iterator)
+    {}
+
+    /**
+     * @brief  Increment operator, prefix form.
+     * @return Increment data.
+     */
+    const_iterator_matrix & operator++() {
+      ++map_iterator_;
+      return *this;
+    }
+
+    /**
+     * @brief  Increment operator, postfix form.
+     * @return Increment data.
+     */
+    const_iterator_matrix operator++(int) {
+      iterator_matrix retval = *this;
+      ++(*this);
+      return retval;
+    }
+
+    /**
+     * @brief  Comparison operator.
+     * @param  other [in] - iterator.
+     * @return The result of the comparison (false/true).
+     */
+    bool operator==(const_iterator_matrix other) const {
+      return map_iterator_ == other.map_iterator_;
+    }
+
+    /**
+     * @brief  Inequality operator.
+     * @param  other [in] - iterator.
+     * @return The result of the comparison (false/true).
+     */
+    bool operator!=(const_iterator_matrix other) const {
+      return !(*this == other);
+    }
+
+    /**
+     * @brief  Dereference operator.
+     * @return Result.
+     */
+    value_t operator*() const {
+      return std::tuple_cat((*map_iterator_).first,
+                            std::tie((*map_iterator_).second));
+    }
+};
+
+/**
+ * Class that implements an iterator for working with matrix data.
+ */
+template<typename value_type_t, value_type_t default_value, size_t matrix_size>
+class sparse_matrix<value_type_t, default_value, matrix_size>::iterator_matrix
+{
+  private:
+    /* Aliases */
+    using iterator_t = typename sparse_matrix::contener_t::iterator;
     using iterator_category_t = std::input_iterator_tag;
 
     iterator_t map_iterator_;   /**< - iterator of the data. */
