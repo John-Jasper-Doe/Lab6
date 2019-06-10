@@ -56,20 +56,23 @@ class sparse_matrix
      * @tparam num - index number.
      * @tparam types_t - index types.
      */
-    template<size_t num, typename... types_t>
+    template<typename CONTENER_TYPE, size_t num, typename... types_t>
     class index_matrix;
 
     /**
      * @brief Class to work with matrix index, if index = 0.
      * @tparam types_t - index types.
      */
-    template<typename... types_t>
-    class index_matrix<0, types_t...>;
+    template<typename CONTENER_TYPE, typename... types_t>
+    class index_matrix<CONTENER_TYPE, 0, types_t...>;
 
     /* Aliases */
     using index_t = typename generate_index_type<size_t, matrix_size>::type;
     using contener_t = typename std::map<index_t, value_type_t>;
-    using next_index = index_matrix<matrix_size - 1, size_t>;
+    using next_index =
+              index_matrix<sparse_matrix::contener_t, matrix_size - 1, size_t>;
+    using const_next_index =
+        index_matrix<const sparse_matrix::contener_t, matrix_size - 1, size_t>;
 
 
   public:
@@ -144,8 +147,8 @@ class sparse_matrix
      * @brief Constant access operator by index.
      * @param index [in] - matrix index.
      */
-    const next_index operator[](const size_t index) const {
-      return next_index(static_cast<std::tuple<size_t>>(index), data_);
+    const const_next_index operator[](const size_t index) const {
+      return const_next_index(static_cast<std::tuple<size_t>>(index), data_);
     }
 
     /**
@@ -206,14 +209,14 @@ class sparse_matrix
  * Class to work with matrix index.
  */
 template<typename value_type_t, value_type_t default_value, size_t matrix_size>
-template<size_t num, typename... types_t>
+template<typename CONTENER_TYPE, size_t num, typename... types_t>
 class sparse_matrix<value_type_t, default_value, matrix_size>::index_matrix
 {
   private:
     /* Aliases */
-    using next_index = index_matrix<num - 1, types_t..., size_t>;
+    using next_index = index_matrix<CONTENER_TYPE, num - 1, types_t..., size_t>;
 
-    const sparse_matrix::contener_t &data_; /**< - container with data. */
+    CONTENER_TYPE &data_; /**< - container with data. */
     std::tuple<types_t...> index_view_;     /**< - representation of the index
                                              *     as a tuple. */
 
@@ -224,7 +227,7 @@ class sparse_matrix<value_type_t, default_value, matrix_size>::index_matrix
      * @param data [in] - contener.
      */
     index_matrix(std::tuple<types_t...> index_view,
-                 const sparse_matrix::contener_t &data)
+                 CONTENER_TYPE &data)
       : data_{data}, index_view_{index_view}
     {}
 
@@ -250,12 +253,12 @@ class sparse_matrix<value_type_t, default_value, matrix_size>::index_matrix
  * Class to work with matrix index, if index = 0.
  */
 template<typename value_type_t, value_type_t default_value, size_t matrix_size>
-template<typename... types_t>
+template<typename CONTENER_TYPE, typename... types_t>
 class sparse_matrix<value_type_t, default_value, matrix_size>::
-    index_matrix<0, types_t...>
+    index_matrix<CONTENER_TYPE,0, types_t...>
 {
   private:
-    const sparse_matrix::contener_t &data_;   /**< - container with data. */
+    CONTENER_TYPE &data_;   /**< - container with data. */
     std::tuple<types_t...> index_view_;       /**< - representation of the
                                                *     index as a tuple. */
     const value_type_t default_value_{default_value};
@@ -267,7 +270,7 @@ class sparse_matrix<value_type_t, default_value, matrix_size>::
      * @param data [in] - contener.
      */
     index_matrix(std::tuple<types_t...> index_view,
-                 const sparse_matrix::contener_t &data)
+                 CONTENER_TYPE &data)
       : data_{data}, index_view_{index_view}
     {}
 
@@ -277,11 +280,11 @@ class sparse_matrix<value_type_t, default_value, matrix_size>::
      */
     auto & operator=(const value_type_t &value) {
       if (value != default_value_)
-        const_cast<sparse_matrix::contener_t &>(data_)[index_view_] = value;
+        data_[index_view_] = value;
       else {
         auto it = data_.find(index_view_);
         if (it != data_.cend())
-          const_cast<sparse_matrix::contener_t &>(data_).erase(it);
+          data_.erase(it);
       }
       return *this;
     }
