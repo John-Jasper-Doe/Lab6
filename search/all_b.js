@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['value_5ft',['value_t',['../classsparse__matrix_1_1iterator__matrix.html#ac7d759259c13370f3966d1a805a86133',1,'sparse_matrix::iterator_matrix']]]
+  ['_7esparse_5fmatrix',['~sparse_matrix',['../classsparse__matrix.html#a0c38654d10f5104787c77db9caa34d83',1,'sparse_matrix']]]
 ];
