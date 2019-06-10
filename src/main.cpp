@@ -70,6 +70,8 @@ int main()
 
   std::cout << std::endl;
 
+  matrix.clear();
+
 
   return 0;
 }

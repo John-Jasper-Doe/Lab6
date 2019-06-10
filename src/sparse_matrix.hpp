@@ -140,7 +140,7 @@ class sparse_matrix
      * @param index [in] - matrix index.
      */
     next_index operator[](const size_t index) {
-      return next_index(static_cast<std::tuple<size_t>>(index), data_);
+      return next_index(std::make_tuple(index), data_);
     }
 
     /**
@@ -148,7 +148,7 @@ class sparse_matrix
      * @param index [in] - matrix index.
      */
     const const_next_index operator[](const size_t index) const {
-      return const_next_index(static_cast<std::tuple<size_t>>(index), data_);
+      return const_next_index(std::make_tuple(index), data_);
     }
 
     /**
@@ -163,7 +163,7 @@ class sparse_matrix
      * @brief  The const begin iterator of the matrix.
      * @return Returns an const iterator to the beginning of the matrix.
      */
-    const auto cbegin() const {
+    auto cbegin() const {
       return const_iterator_matrix(data_.cbegin());
     }
 
@@ -179,7 +179,7 @@ class sparse_matrix
      * @brief  The const end iterator of the matrix.
      * @return Returns an const iterator to the end of the matrix.
      */
-    const auto cend() const {
+    auto cend() const {
       return const_iterator_matrix(data_.cend());
     }
 
@@ -200,7 +200,7 @@ class sparse_matrix
 
 
   private:
-    std::map<index_t, value_type_t> data_;            /**< - data container. */
+    contener_t data_;            /**< - data container. */
     const value_type_t default_value_{default_value}; /**< - default value. */
 };
 
@@ -315,9 +315,6 @@ class sparse_matrix<value_type_t, default_value, matrix_size>::
 
 
   public:
-   using value_t = decltype(std::tuple_cat((*map_iterator_).first,
-                                          std::tie((*map_iterator_).second)));
-
     /**
      * @brief The constructor.
      * @param map_iterator [in] - iterator.
@@ -367,7 +364,7 @@ class sparse_matrix<value_type_t, default_value, matrix_size>::
      * @brief  Dereference operator.
      * @return Result.
      */
-    value_t operator*() const {
+    auto operator*() const {
       return std::tuple_cat((*map_iterator_).first,
                             std::tie((*map_iterator_).second));
     }
@@ -388,9 +385,6 @@ class sparse_matrix<value_type_t, default_value, matrix_size>::iterator_matrix
 
 
   public:
-   using value_t = decltype(std::tuple_cat((*map_iterator_).first,
-                                          std::tie((*map_iterator_).second)));
-
     /**
      * @brief The constructor.
      * @param map_iterator [in] - iterator.
@@ -440,7 +434,7 @@ class sparse_matrix<value_type_t, default_value, matrix_size>::iterator_matrix
      * @brief  Dereference operator.
      * @return Result.
      */
-    value_t operator*() const {
+    auto operator*() const {
       return std::tuple_cat((*map_iterator_).first,
                             std::tie((*map_iterator_).second));
     }
