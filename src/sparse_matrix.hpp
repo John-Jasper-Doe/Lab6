@@ -159,6 +159,10 @@ class sparse_matrix
       return iterator_matrix(data_.begin());
     }
 
+    auto begin() const {
+      return const_iterator_matrix(data_.cbegin());
+    }
+
     /**
      * @brief  The const begin iterator of the matrix.
      * @return Returns an const iterator to the beginning of the matrix.
@@ -173,6 +177,10 @@ class sparse_matrix
      */
     auto end() {
       return iterator_matrix(data_.end());
+    }
+
+    auto end() const {
+      return const_iterator_matrix(data_.cend());
     }
 
     /**
@@ -364,7 +372,7 @@ class sparse_matrix<value_type_t, default_value, matrix_size>::
      * @brief  Dereference operator.
      * @return Result.
      */
-    auto operator*() const {
+    const auto operator*() const {
       return std::tuple_cat((*map_iterator_).first,
                             std::tie((*map_iterator_).second));
     }

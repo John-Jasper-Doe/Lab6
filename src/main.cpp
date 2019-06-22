@@ -59,11 +59,10 @@ int main()
   const sparse_matrix<int> m2 = matrix;
 
   /* Output of all occupied cells in the matrix */
-  sparse_matrix<int>::const_iterator_matrix cit = m2.cbegin();
-  for (; cit != m2.cend(); ++cit) {
-    const size_t &hindex = std::get<0>(*cit);
-    const size_t &vindex = std::get<1>(*cit);
-    const int &value = std::get<2>(*cit);
+  for (const auto cit : m2) {
+    const size_t &hindex = std::get<0>(cit);
+    const size_t &vindex = std::get<1>(cit);
+    const int &value = std::get<2>(cit);
 
     std::cout << "[" << hindex << ", " << vindex << "] = " << value << '\n';
   }
