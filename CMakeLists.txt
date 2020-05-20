@@ -6,7 +6,7 @@ else ()
     project(matrix VERSION 0.0.1)
 endif ()
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 find_package(Threads)
 add_executable(${PROJECT_NAME} ./src/main.cpp)

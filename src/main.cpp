@@ -72,6 +72,31 @@ int main()
   matrix.clear();
 
 
+  //-----------------------------------------------------------------
+  // Bonus test
+  //
+  const int m_size = 10;
+  int count_step = 0;
+  sparse_matrix<int> matrix2;
+
+  for (size_t i = 0; i < num_elem; i += 2) {
+    for (size_t j = 0; j < num_elem; j += 2) {
+      matrix2[i + 1][j] = static_cast<int>(8);
+      matrix2[i][j + 1] = static_cast<int>(8);
+      ++count_step;
+    }
+  }
+
+
+  for (size_t i = 0; i < m_size; ++i) {
+    for (size_t j = 0; j < m_size; ++j) {
+      std::cout << std::setw(3) << matrix2[i][j] << ' ';
+    }
+    std::cout << '\n';
+  }
+  std::cout << std::endl;
+  std::cout << "Count step: " << count_step << std::endl;
+
   return 0;
 }
 
