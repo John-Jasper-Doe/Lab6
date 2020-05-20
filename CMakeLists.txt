@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.2)
 
 if (DEFINED ENV{TRAVIS_BUILD_NUMBER})
-    project(matrix VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
+    project(spare_matrix VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 else ()
-    project(matrix VERSION 0.0.1)
+    project(spare_matrix VERSION 0.0.1)
 endif ()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
